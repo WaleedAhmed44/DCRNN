@@ -53,3 +53,29 @@ def model(train,test,forecaster,detrender):
         rmsse1 = rmsse(test,pred,y_train=train)
         gmae1 = gmae(test,pred)
     return [smape1,rmsse1,gmae1,pred]
+
+
+def hourly_mean(train,test,N):
+    h_train = []
+    h_test = []
+    for i in range(N):
+        h_train.append(np.mean(train[0][i*(12):(i+1)*12-1]))
+        h_test.append(np.mean(test[0][i*(12):(i+1)*12-1]))
+    return [pd.DataFrame(h_train),pd.DataFrame(h_test)]
+
+def daily_mean(train,test,N):
+    d_train = []
+    d_test = []
+    for i in range(N):
+        d_train.append(np.mean(train[0][i*(12)*24:(i+1)*12*24-1]))
+        d_test.append(np.mean(test[0][i*(12)*24:(i+1)*12*24-1]))
+    return [pd.DataFrame(d_train),pd.DataFrame(d_test)]
+        
+def weekly_mean(train,test,N):
+    w_train = []
+    w_test = []
+    for i in range(N):
+        w_train.append(np.mean(train[0][i*(12)*24*7:(i+1)*12*24*7-1]))
+        w_test.append(np.mean(test[0][i*(12)*24*7:(i+1)*12*24*7-1]))
+    return [pd.DataFrame(w_train),pd.DataFrame(w_test)]
+        
